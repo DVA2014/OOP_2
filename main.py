@@ -1,3 +1,7 @@
+from itertools import count
+import os
+
+
 with open('recipes.txt', encoding='utf-8') as file:
     cook_book = {}
     for line in file:
