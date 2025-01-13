@@ -2,22 +2,27 @@ from itertools import count
 import os
 
 
-with open('recipes.txt', encoding='utf-8') as file:
-    cook_book = {}
-    for line in file:
-        dish = line.strip()
-        num_ingredients = int(file.readline().strip())
-        ingredients = []
-        for _ in range(num_ingredients):
-            ingredient_info = file.readline().strip().split(' | ')
-            ingredients.append({'ingredient_name': ingredient_info[0],
+def create_cook_book():
+    file_name = 'recipes.txt'
+    with open(file_name, encoding='utf-8') as file:
+        cook_book = {}
+        for line in file:
+            dish = line.strip()
+            num_ingredients = int(file.readline().strip())
+            ingredients = []
+            for _ in range(num_ingredients):
+                ingredient_info = file.readline().strip().split(' | ')
+                ingredients.append({'ingredient_name': ingredient_info[0],
             'quantity': int(ingredient_info[1]), 'measure': ingredient_info[2]})
-        cook_book[dish] = ingredients
-        file.readline()
-    print(cook_book)
+            cook_book[dish] = ingredients
+            file.readline()
+        return cook_book
+
+print(create_cook_book())
 
 def get_shop_list_by_dishes(dishes: list, person_count: int):
     shop_list = {}
+    cook_book = create_cook_book()
     for dish in dishes:
         if dish in cook_book:
             for ingredient in cook_book[dish]:
@@ -30,4 +35,5 @@ def get_shop_list_by_dishes(dishes: list, person_count: int):
         else:
             print('Такого блюда нет в книге')
     print(shop_list)
+
 get_shop_list_by_dishes(['Фахитос', 'Омлет'], 2)
